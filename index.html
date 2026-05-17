@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026五一衡山+郴州之旅</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* 导航栏 */
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #667eea;
+        }
+
+        /* 英雄区 - 使用登顶祝融峰照片 */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.7) 0%, rgba(118, 75, 162, 0.7) 100%),
+                        url('images/group7.jpg') center/cover no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .hero-content {
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            font-size: 2rem;
+        }
+
+        /* 通用容器 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            color: #333;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        /* 照片墙 */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .photo-item {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 250px;
+            cursor: pointer;
+        }
+
+        .photo-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .photo-item:hover img {
+            transform: scale(1.1);
+        }
+
+        /* 故事部分 */
+        .story-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .story-card:nth-child(even) {
+            direction: rtl;
+        }
+
+        .story-card:nth-child(even) .story-content {
+            direction: ltr;
+        }
+
+        .story-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+
+        .story-content p {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .story-image {
+            border-radius: 15px;
+            overflow: hidden;
+            height: 300px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .story-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 成员介绍 */
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .member-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .member-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .member-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            overflow: hidden;
+            border: 4px solid #667eea;
+        }
+
+        .member-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .member-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .member-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* 页脚 */
+        footer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        /* 图片查看器 */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+        }
+
+        /* 动画 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-20px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-10px) translateX(-50%);
+            }
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            .nav-links {
+                gap: 15px;
+            }
+            
+            .story-card {
+                grid-template-columns: 1fr;
+                padding: 30px;
+            }
+            
+            .story-card:nth-child(even) {
+                direction: ltr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">2026五一之旅</div>
+            <div class="nav-links">
+                <a href="#home" class="active">首页</a>
+                <a href="#photos">精彩瞬间</a>
+                <a href="#stories">旅行故事</a>
+                <a href="#members">我们三个</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 首页英雄区 -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>2026年五一之旅</h1>
+            <p>衡山的汗水，郴州的吐槽，三个屌丝</p>
+        </div>
+        <div class="scroll-down">↓</div>
+    </section>
+
+    <!-- 照片墙 -->
+    <section id="photos" class="container">
+        <h2 class="section-title">精彩瞬间</h2>
+        <div class="photo-grid">
+            <!-- 大白单人照 -->
+            <div class="photo-item">
+                <img src="images/car.jpg" alt="刚下火车的大白">
+            </div>
+            <div class="photo-item">
+                <img src="images/street1.jpg" alt="开心的大白">
+            </div>
+            <div class="photo-item">
+                <img src="images/tired1.jpg" alt="累到不行的大白">
+            </div>
+            <div class="photo-item">
+                <img src="images/tired2.jpg" alt="坐地上休息">
+            </div>
+            
+            <!-- 晓斌单人照 -->
+            <div class="photo-item">
+                <img src="images/car_sleep.jpg" alt="车上补觉的晓斌">
+            </div>
+            <div class="photo-item">
+                <img src="images/nanyue.jpg" alt="南岳打卡">
+            </div>
+            <div class="photo-item">
+                <img src="images/hengshan1.jpg" alt="登山途中">
+            </div>
+            <div class="photo-item">
+                <img src="images/nantianmen.jpg" alt="南天门">
+            </div>
+            <div class="photo-item">
+                <img src="images/car_sleep_xiaobin.jpg" alt="下山时的晓斌">
+            </div>
+            
+            <!-- 合照 -->
+            <div class="photo-item">
+                <img src="images/group1.jpg" alt="民宿楼下集合">
+            </div>
+            <div class="photo-item">
+                <img src="images/group2.jpg" alt="胜利坊起点">
+            </div>
+            <div class="photo-item">
+                <img src="images/group3.jpg" alt="登山途中">
+            </div>
+            <div class="photo-item">
+                <img src="images/group4.jpg" alt="山间风景">
+            </div>
+            <div class="photo-item">
+                <img src="images/group5.jpg" alt="继续攀登">
+            </div>
+            <div class="photo-item">
+                <img src="images/group6.jpg" alt="将近峰顶">
+            </div>
+            <div class="photo-item">
+                <img src="images/group7.jpg" alt="登顶祝融峰">
+            </div>
+
+            <!-- 衡山美景 -->
+            <div class="photo-item">
+                <img src="images/nantianmen_arch.jpg" alt="南天门牌坊">
+            </div>
+            <div class="photo-item">
+                <img src="images/shoubinanshan.jpg" alt="寿比南山">
+            </div>
+            <div class="photo-item">
+                <img src="images/zhurongfeng_stone.jpg" alt="祝融峰石碑">
+            </div>
+            <div class="photo-item">
+                <img src="images/zhurongdian_panorama.jpg" alt="祝融殿全景">
+            </div>
+            <div class="photo-item">
+                <img src="images/zhurongdian_close.jpg" alt="祝融殿近景">
+            </div>
+
+            <!-- 郴州裕后街 -->
+            <div class="photo-item">
+                <img src="images/chenzhou1.jpg" alt="裕后街古建筑">
+            </div>
+            <div class="photo-item">
+                <img src="images/chenzhou2.jpg" alt="秦观雕像">
+            </div>
+            <div class="photo-item">
+                <img src="images/chenzhou3.jpg" alt="鹊桥夜景">
+            </div>
+            <div class="photo-item">
+                <img src="images/chenzhou4.jpg" alt="桥上人群">
+            </div>
+            <div class="photo-item">
+                <img src="images/chenzhou5.jpg" alt="黄昏灯笼">
+            </div>
+            <div class="photo-item">
+                <img src="images/chenzhou6.jpg" alt="黄昏全景">
+            </div>
+            <div class="photo-item">
+                <img src="images/chenzhou7.jpg" alt="夜晚拱桥">
+            </div>
+            <div class="photo-item">
+                <img src="images/chenzhou8.jpg" alt="黄昏人群">
+            </div>
+        </div>
+    </section>
+
+    <!-- 旅行故事 -->
+    <section id="stories" class="container">
+        <h2 class="section-title">旅行故事</h2>
+        
+        <div class="story-card">
+            <div class="story-content">
+                <h3>跨越千里的相聚</h3>
+                <p>2026年五一，我们三个从不同的地方奔赴湖南衡山。大白从河南师范大学坐了十几个小时的硬座，晓斌从三峡大学赶来，而我在从广州出发</p>
+                <p>虽然路途遥远，但对于三个屌丝来说，这些都不重要，无论相隔多远，只要想见，就一定能见到。嘶嘶~说的有点肉麻。</p>
+            </div>
+            <div class="story-image">
+                <img src="images/group1.jpg" alt="民宿楼下集合">
+            </div>
+        </div>
+
+        <div class="story-card">
+            <div class="story-content">
+                <h3>胜利坊：我们出发了！</h3>
+                <p>5月2号早上，我们来到了衡山的起点——胜利坊。在这里，我们拍下了第一张较为正式的合照，也立下了今天的目标：登顶祝融峰！</p>
+                <p>晓斌没去之前他是觉得我们爬不上去的，但感觉就他走的最快。大白还是走到哪笑到哪，丝毫没看出来一点压力，我嘛，这次膝盖要遭老罪了。</p>
+            </div>
+            <div class="story-image">
+                <img src="images/group2.jpg" alt="胜利坊起点">
+            </div>
+        </div>
+
+        <div class="story-card">
+            <div class="story-content">
+                <h3>南天门：胜利在望</h3>
+                <p>经过几个小时的艰苦攀登，我们终于他么的到达了这个南天门，感觉途中看见了好几次这个地标。</p>
+                <p>“这座古老的石牌坊矗立在山间，仿佛在告诉我们：只要坚持，就一定能到达目的地。在这里，我们看到了著名的"寿比南山"石刻，也感受到了衡山深厚的文化底蕴。”一股AI味~</p>
+                <p>从南天门到祝融峰还有最后一段路，没记错的话是2.5公里，哈哈</p>
+            </div>
+            <div class="story-image">
+                <img src="images/nantianmen_arch.jpg" alt="南天门牌坊">
+            </div>
+        </div>
+
+        <div class="story-card">
+            <div class="story-content">
+                <h3>最后的倔强</h3>
+                <p>从南天门出发，开始了最后的冲刺。这回明显风变大了，广播上也在催促着游客抓紧时间下山，可能会下雨</p>
+                <p>但路上上山的人还是不少的，继续走吧，来都来了嘛</p>
+            </div>
+            <div class="story-image">
+                <img src="images/zhurongfeng_stone.jpg" alt="祝融峰石碑">
+            </div>
+        </div>
+
+        <div class="story-card">
+            <div class="story-content">
+                <h3>登顶祝融峰！</h3>
+                <p>我们终于站在了衡山之巅——祝融峰！算下来，经过五个小时多的艰苦攀登，</p>
+                <p>果然天气不太好，这风更大，但山顶上依然人山人海。旁白的有个拍照打卡点，但是吧，挤满了人。</p>
+                <p>我们在祝融殿前拍下了个照，拿出提前准备好的“勇闯天涯”，为登上顶装下杯，买了三瓶，结果三人喝了一瓶。</p>
+                <p>说巧不巧，开始下雨了，也好，旁边的香烟熏得难受，这里好多是带香上山的，来拜佛求道吧，应该。</p>
+            </div>
+            <div class="story-image">
+                <img src="images/zhurongdian_panorama.jpg" alt="祝融殿全景">
+            </div>
+        </div>
+
+        <div class="story-card">
+            <div class="story-content">
+                <h3>下山：</h3>
+                <p>拍了他么有一个小时的队吧，终于也是坐上了下山的车。</p>
+                <p>说实话还是有点吓人的，这么高，这路上他么刚才下雨还有点湿，好在安全下山，</p>
+            </div>
+            <div class="story-image">
+                <img src="images/car_sleep_xiaobin.jpg" alt="下山时的晓斌">
+            </div>
+        </div>
+
+        <div class="story-card">
+            <div class="story-content">
+                <h3>第二站郴州：难评</h3>
+                <p>来到了屌毛心心念念的郴州，一方面时间没那么多，这的好多景点没怎么逛，几乎没逛。</p>
+                <p>三号下午到的郴州，因为前一天爬山爬的有点虚，直接民宿躺到了晚上。四号出来瞅瞅。</p>
+                <p>总评就是：一坨屎。</p>
+                <p>景色也就那样吧，拍出来的照片还能看，那个桥说是秦观写《鹊桥仙》的鹊桥，是真是假谁又知道呢，但真的是三个单身狗走在上面。</p>
+                <p>逛完裕后街，我们就各自乘车回学校了。这个极快而又短暂的五一假期，就这样结束了。</p>
+            </div>
+            <div class="story-image">
+                <img src="images/chenzhou7.jpg" alt="夜晚拱桥">
+            </div>
+        </div>
+    </section>
+
+    <!-- 成员介绍 -->
+    <section id="members" class="container">
+        <h2 class="section-title">我们三个</h2>
+        <div class="members-grid">
+            <div class="member-card">
+                <div class="member-avatar">
+                    <img src="images/street1.jpg" alt="大白">
+                </div>
+                <h3>大白</h3>
+                <p>河南师范大学<br>本次旅行最远奔赴者<br>坐了十几个小时硬座的勇士<br>虽然累但绝不放弃</p>
+            </div>
+            <div class="member-card">
+                <div class="member-avatar">
+                    <img src="images/hengshan1.jpg" alt="晓斌">
+                </div>
+                <h3>晓斌</h3>
+                <p>三峡大学卷王<br>反向flag之王<br>嘴上说爬不上去<br>实际跑得比谁都快<br>下山必靠别人肩膀睡觉<br>郴州之旅的罪魁祸首</p>
+            </div>
+            <div class="member-card">
+                <div class="member-avatar">
+                    <img src="images/group7.jpg" alt="吴道贺">
+                </div>
+                <h3>吴道贺</h3>
+                <p>本次旅行参与者<br>专职摄影师兼司机<br>负责记录所有美好瞬间<br>以及大家的黑历史</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <p>© 2026 五一衡山+郴州之旅 | 制作：吴道贺</p>
+        <p>愿我们永远年轻，永远在路上，永远有说走就走的勇气</p>
+    </footer>
+
+    <!-- 图片查看器 -->
+    <div class="lightbox" id="lightbox">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <img src="" id="lightbox-img" alt="大图">
+    </div>
+
+    <!-- 平滑滚动和图片查看器 -->
+    <script>
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // 图片点击放大
+        const photoItems = document.querySelectorAll('.photo-item img');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+
+        photoItems.forEach(img => {
+            img.addEventListener('click', function() {
+                lightbox.classList.add('active');
+                lightboxImg.src = this.src;
+            });
+        });
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+        }
+
+        // 点击背景关闭
+        lightbox.addEventListener('click', function(e) {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+    </script>
+</body>
+</html>
